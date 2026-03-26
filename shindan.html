@@ -4,75 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AIサバイバル診断 | 才能を輝かせるプレミアム・パートナー</title>
-    
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bit.ly/AI-Survival-2026"> 
-    <meta property="og:title" content="AIサバイバル診断 | あなたの才能を輝かせるプレミアム・パートナー">
-    <meta property="og:description" content="2026年、AIと共に生きる。5つの質問で、今のあなたに最適なAIツールセットと、あなたの『才能の磨き方』を提案します。">
-    <meta property="og:image" content="image_0.png"> 
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
         :root { --primary: #0047ab; --gold: #d4af37; --text-main: #1a1a1a; }
-        
-        /* 画面のはみ出しを防止 */
         html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; }
-        
         body { font-family: 'Noto Sans JP', sans-serif; background-color: #000; color: var(--text-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; position: relative; }
-        
         .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: opacity 2s ease-in-out; z-index: -1; opacity: 0; }
         .bg-layer.active { opacity: 1; }
         .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)); z-index: -1; }
-        
-        .container { 
-            background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.4); width: 90%; max-width: 500px; padding: 2.5rem 1.5rem; border-radius: 1.5rem; 
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.25); text-align: center; position: relative; margin: 20px auto;
-        }
-
-        /* ★タイトルロゴ：スマホで絶対にはみ出さない設定★ */
-        h1.main-title { 
-            margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; width: 100%;
-        }
-        h1.main-title img { 
-            width: 100%;       /* コンテナの幅いっぱいに */
-            max-width: 320px;  /* でもこれ以上は大きくしない（PC用） */
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
-        }
-
+        .container { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.4); width: 90%; max-width: 500px; padding: 2.5rem 1.5rem; border-radius: 1.5rem; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.25); text-align: center; position: relative; margin: 20px auto; }
+        h1.main-title { margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; width: 100%; }
+        h1.main-title img { width: 100%; max-width: 320px; height: auto; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); }
         .question-text { font-size: 1.2rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.6; color: #111; }
         .options { display: grid; gap: 1rem; }
-        
-        button.option-btn { 
-            background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.9); 
-            padding: 1.2rem; border-radius: 1rem; font-size: 1rem; font-weight: 700; 
-            cursor: pointer; transition: all 0.3s ease; color: #000; width: 100%;
-        }
+        button.option-btn { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.9); padding: 1.2rem; border-radius: 1rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; color: #000; width: 100%; }
         button.option-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
-
-        /* 結果表示エリア */
         .result-view { display: none; text-align: left; animation: fadeIn 1s ease; }
         .result-type-name { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; }
         .type-desc { font-size: 0.95rem; line-height: 1.8; color: #1a1a1a; margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.3); border-radius: 1rem; }
-        
         .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; }
         .tool-logo { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; object-fit: contain; }
         .tool-name { font-weight: 900; color: var(--primary); font-size: 1rem; }
         .tool-reason { font-size: 0.8rem; color: #475569; }
-
         .sub-tool-container { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
         .sub-tool-link { background: rgba(255, 255, 255, 0.7); padding: 0.5rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-decoration: none; color: #475569; }
-
         .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2rem; border-left: 4px solid var(--gold); }
         .manifesto-text { font-size: 0.9rem; line-height: 1.7; font-weight: 700; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
 <div id="bg-overlay-layers">
     <div id="bg0" class="bg-layer active" style="background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000');"></div>
     <div id="bg1" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2000');"></div>
@@ -82,26 +43,19 @@
     <div id="bg5" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000');"></div>
 </div>
 <div class="bg-overlay"></div>
-
 <div class="container">
     <div id="quiz">
         <h1 class="main-title"><img src="image_0.png" alt="AIサバイバル診断"></h1>
         <p class="question-text" id="q-text"></p>
         <div class="options" id="options"></div>
     </div>
-
     <div id="result" class="result-view">
         <div style="text-align: center; font-size: 0.7rem; letter-spacing: 0.2em; color: #64748b; margin-bottom: 0.5rem;">DIAGNOSIS RESULT</div>
         <span class="result-type-name" id="result-type"></span>
         <div class="type-desc" id="type-explanation"></div>
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <p style="font-size: 0.75rem; font-weight: 900; color: var(--primary); letter-spacing: 0.1em;">RECOMMENDED AI STACK</p>
-        </div>
         <div id="tool-list"></div>
         <div id="sub-tool-list" class="sub-tool-container"></div>
-        <div class="manifesto-box">
-            <p class="manifesto-text">あなたにしか出来ないことがあります。AIを相棒にして、より自分が輝ける社会を創っていきましょう。</p>
-        </div>
+        <div class="manifesto-box"><p class="manifesto-text">あなたにしか出来ないことがあります。AIを相棒にして、より自分が輝ける社会を創っていきましょう。</p></div>
         <button onclick="location.reload()" style="display: block; margin: 2rem auto 0; background: none; border: none; color: #999; cursor: pointer; text-decoration: underline; font-size: 0.8rem;">最初からやり直す</button>
     </div>
 </div>
@@ -139,6 +93,14 @@
         setTimeout(() => { if (currentIdx < questions.length) { renderQuestion(); } else { showResult(); } }, 200);
     }
 
+    // ★スプレッドシート連携用関数を復活★
+    async function sendLogToSheet(type, score) {
+        // ここに以前のGASのURLを貼り付けてください
+        const url = "https://script.google.com/macros/s/AKfycbzQM6O0tOe968B-0cfaeofygoyk2KuMcZX6B0ovAEA7olNTRuGY3opylB2VjszsZ7nf/exec"; 
+        const data = { type: type, score: score };
+        try { fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); } catch (e) { console.error(e); }
+    }
+
     function showResult() {
         document.getElementById('quiz').style.display = 'none';
         document.getElementById('result').style.display = 'block';
@@ -146,12 +108,12 @@
 
         if (totalScore < 300) {
             res.type = "感性のクリエイティブ・マスター";
-            res.desc = "あなたは独自のセンスを武器にする表現者。AIを共創パートナーにすることで、創造性はさらに加速します。";
+            res.desc = "独自のセンスを武器にする表現者。AIを共創パートナーにすることで、創造性はさらに加速します。";
             res.tools = [{ name: "Claude 3.5 Sonnet", reason: "思考の壁打ち相手に最適。", url: "https://claude.ai/", logo: logos.claude }, { name: "Midjourney", reason: "イメージを圧倒的クオリティで視覚化。", url: "https://www.midjourney.com/", logo: logos.mj }];
             res.subTools = [{ name: "Canva AI", logo: logos.canva }, { name: "Notion AI", logo: logos.notion }];
         } else if (totalScore < 500) {
             res.type = "信頼のロジカル・アーキテクト";
-            res.desc = "複雑な情報を整理し仕組み化する設計者。AIによる自動化で、戦略構築に没頭できる環境を作れます。";
+            res.desc = "情報を整理し仕組み化する設計者。AIによる自動化で、戦略構築に没頭できる環境を作れます。";
             res.tools = [{ name: "ChatGPT (GPT-4o)", reason: "情報の整理や要約の相棒。", url: "https://chatgpt.com/", logo: logos.chatgpt }, { name: "Make", reason: "ルーチン作業を自動連携。", url: "https://www.make.com/", logo: logos.make }];
             res.subTools = [{ name: "Perplexity", logo: logos.per }, { name: "Notion", logo: logos.notion }];
         } else {
@@ -171,6 +133,9 @@
         const subList = document.getElementById('sub-tool-list');
         subList.innerHTML = "";
         res.subTools.forEach(st => { subList.innerHTML += `<span class="sub-tool-link">${st.name}</span>`; });
+        
+        // ★結果表示時にスプレッドシートへ送信★
+        sendLogToSheet(res.type, totalScore);
     }
     renderQuestion();
 </script>
