@@ -9,65 +9,64 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
         :root { --primary: #0047ab; --gold: #d4af37; --text-main: #1a1a1a; }
         
-        /* 1. 根本的な右寄りを防ぐ最強の設定 */
         html, body { 
-            overflow-x: hidden !important; /* 横スクロールを強制禁止 */
-            width: 100vw !important; 
+            overflow-x: hidden !important; 
+            width: 100% !important; 
             margin: 0 !important; 
             padding: 0 !important; 
             background-color: #000; 
-            position: relative;
+            min-height: 100vh;
         }
         
         body { 
             font-family: 'Noto Sans JP', sans-serif; 
-            color: var(--text-main); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 100vh; 
         }
         
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: opacity 2s ease-in-out; z-index: -1; opacity: 0; }
+        /* 背景レイヤーの修正：z-indexを整理 */
+        .bg-layer { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-size: cover; background-position: center; 
+            transition: opacity 2s ease-in-out; z-index: -2; opacity: 0; 
+        }
         .bg-layer.active { opacity: 1; }
-        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)); z-index: -1; }
+        .bg-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)); 
+            z-index: -1; 
+        }
         
-        /* 2. コンテナを「中央」に絶対固定 */
         .container { 
-            background: rgba(255, 255, 255, 0.55); 
+            background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
             border: 1px solid rgba(255, 255, 255, 0.4); 
             width: 90%; 
             max-width: 480px; 
-            padding: 2.5rem 1.2rem; 
-            border-radius: 1.5rem; 
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.25); 
+            padding: 2.5rem 1.5rem; 
+            border-radius: 1.8rem; 
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4); 
             text-align: center; 
             position: relative; 
-            margin: 20px auto !important; /* 上下20px、左右中央(auto) */
-            box-sizing: border-box !important; /* パディングを含めて計算 */
+            margin: 40px auto !important;
+            box-sizing: border-box !important;
+            z-index: 10;
         }
 
-        /* 3. ロゴ画像のはみ出しを強制的に抑え込む */
-        h1.main-title { 
-            margin-bottom: 2rem; 
-            display: flex; 
-            justify-content: center; 
-            width: 100% !important; 
-        }
+        h1.main-title { margin-bottom: 2rem; display: flex; justify-content: center; width: 100%; }
         h1.main-title img { 
             width: 100% !important; 
-            max-width: 280px !important; /* 少し控えめにして安全圏に */
+            max-width: 300px !important; 
             height: auto !important;
-            object-fit: contain;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
         }
 
-        .question-text { font-size: 1.2rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.6; color: #111; }
+        .question-text { font-size: 1.25rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.6; color: #111; }
         .options { display: grid; gap: 1rem; width: 100%; }
         
         button.option-btn { 
-            background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.9); 
+            background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.9); 
             padding: 1.2rem; border-radius: 1rem; font-size: 1rem; font-weight: 700; 
             cursor: pointer; transition: all 0.3s ease; color: #000; width: 100%;
             box-sizing: border-box;
@@ -75,21 +74,22 @@
         button.option-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
         .result-view { display: none; text-align: left; animation: fadeIn 1s ease; width: 100%; }
-        .result-type-name { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; }
-        .type-desc { font-size: 0.9rem; line-height: 1.7; color: #1a1a1a; margin-bottom: 2rem; padding: 1.2rem; background: rgba(255,255,255,0.4); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.5); }
+        .result-type-name { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .type-desc { font-size: 0.95rem; line-height: 1.8; color: #1a1a1a; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.4); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.5); }
         
-        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; }
-        .tool-logo { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; object-fit: contain; }
-        .tool-name { font-weight: 900; color: var(--primary); font-size: 1rem; }
-        .tool-reason { font-size: 0.8rem; color: #475569; line-height: 1.4; }
+        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; transition: transform 0.2s; }
+        .tool-card:hover { transform: scale(1.02); background: #fff; }
+        .tool-logo { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; object-fit: contain; }
+        .tool-name { font-weight: 900; color: var(--primary); font-size: 1.05rem; }
+        .tool-reason { font-size: 0.8rem; color: #475569; line-height: 1.4; margin-top: 2px; }
 
-        .sub-tool-container { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; width: 100%; }
-        .sub-tool-link { background: rgba(255, 255, 255, 0.7); padding: 0.5rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; color: #475569; }
+        .sub-tool-container { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; width: 100%; }
+        .sub-tool-link { background: rgba(255, 255, 255, 0.8); padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: #334155; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2rem; border-left: 4px solid var(--gold); width: 100%; box-sizing: border-box; }
-        .manifesto-text { font-size: 0.85rem; line-height: 1.7; font-weight: 700; }
+        .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2.5rem; border-left: 5px solid var(--gold); width: 100%; box-sizing: border-box; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .manifesto-text { font-size: 0.9rem; line-height: 1.8; font-weight: 700; color: #333; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -112,7 +112,7 @@
     </div>
 
     <div id="result" class="result-view">
-        <div style="text-align: center; font-size: 0.7rem; letter-spacing: 0.2em; color: #64748b; margin-bottom: 0.5rem;">DIAGNOSIS RESULT</div>
+        <div style="text-align: center; font-size: 0.75rem; letter-spacing: 0.3em; color: #64748b; margin-bottom: 0.5rem; font-weight: 700;">DIAGNOSIS RESULT</div>
         <span class="result-type-name" id="result-type"></span>
         <div class="type-desc" id="type-explanation"></div>
         <div id="tool-list"></div>
@@ -120,7 +120,7 @@
         <div class="manifesto-box">
             <p class="manifesto-text">あなたにしか出来ないことがあります。AIを相棒にして、より自分が輝ける社会を創っていきましょう。</p>
         </div>
-        <button onclick="location.reload()" style="display: block; margin: 2rem auto 0; background: none; border: none; color: #999; cursor: pointer; text-decoration: underline; font-size: 0.8rem;">最初からやり直す</button>
+        <button onclick="location.reload()" style="display: block; margin: 2.5rem auto 0; background: none; border: none; color: #94a3b8; cursor: pointer; text-decoration: underline; font-size: 0.85rem; font-weight: 700;">診断をやり直す</button>
     </div>
 </div>
 
@@ -157,7 +157,6 @@
         setTimeout(() => { if (currentIdx < questions.length) { renderQuestion(); } else { showResult(); } }, 200);
     }
 
-    // スプレッドシート連携
     async function sendLogToSheet(type, score) {
         const url = "https://script.google.com/macros/s/AKfycbzQM6O0tOe968B-0cfaeofygoyk2KuMcZX6B0ovAEA7olNTRuGY3opylB2VjszsZ7nf/exec"; 
         const data = { type: type, score: score };
@@ -176,7 +175,7 @@
                 { name: "Claude 3.5 Sonnet", reason: "あなたの繊細な感性や『行間』を読み取り、高精度な壁打ち相手として機能します。", url: "https://claude.ai/", logo: logos.claude },
                 { name: "Midjourney", reason: "頭の中にある抽象的なイメージや空気感を、言葉（プロンプト）を通じて圧倒的なアートへと昇華させます。", url: "https://www.midjourney.com/", logo: logos.mj }
             ];
-            res.subTools = [{ name: "Canva AI (デザイン)" }, { name: "Notion AI (執筆)" }];
+            res.subTools = [{ name: "Canva AI" }, { name: "Notion AI" }];
         } else if (totalScore < 500) {
             res.type = "信頼のロジカル・アーキテクト";
             res.desc = "あなたは複雑な情報を整理し、淀みのない仕組みを構築する設計者です。散らばったデータを構造化し、最短距離で最適解を導き出す能力に長けています。AIを活用して徹底的な自動化と情報の要約を極めることで、日々のルーチンワークから完全に解放され、より本質的な「戦略構築」や「新しい仕組みの創造」に没頭できる環境を作り出すことができます。あなたが構築するシステムそのものが、周囲にとっての強力な武器となるはずです。";
@@ -184,7 +183,7 @@
                 { name: "ChatGPT (GPT-4o)", reason: "膨大な情報の要約、データの構造化、プログラミングまで。論理的な思考を補完する最強の頭脳です。", url: "https://chatgpt.com/", logo: logos.chatgpt },
                 { name: "Make", reason: "複数のツールをシームレスに連携させ、あなた専用の全自動ワークフロー（仕組み）を実現します。", url: "https://www.make.com/", logo: logos.make }
             ];
-            res.subTools = [{ name: "Perplexity (リサーチ)" }, { name: "Notion (ナレッジ管理)" }];
+            res.subTools = [{ name: "Perplexity" }, { name: "Notion" }];
         } else {
             res.type = "共感のビジョナリー・リーダー";
             res.desc = "あなたは人々の想いを結びつけ、未来のビジョンを指し示す先導者です。多様な意見を統合し、チームが向かうべき方向をポジティブに提示する力を持っています。AIを多角的な視点を持つ「アドバイザー」や、ビジョンを即座に視覚化する「デザイナー」として活用することで、あなたのリーダーシップはより説得力を増し、周囲を強力に巻き込んでいきます。AIで効率化した時間を「対話」に注ぐことで、より大きな社会変革を現実のものにするでしょう。";
@@ -192,7 +191,7 @@
                 { name: "Google Gemini", reason: "Google Workspaceとの高度な連携により、チームの情報共有と意思決定を劇的にスムーズにします。", url: "https://gemini.google.com/", logo: logos.gemini },
                 { name: "Gamma", reason: "キーワードを入力するだけで、あなたの情熱的なビジョンを洗練されたプレゼン資料へと瞬時に変換します。", url: "https://gamma.app/", logo: logos.gamma }
             ];
-            res.subTools = [{ name: "Canva (プレゼン)" }, { name: "ChatGPT (コーチング)" }];
+            res.subTools = [{ name: "Canva" }, { name: "ChatGPT" }];
         }
 
         document.getElementById('result-type').innerText = res.type;
