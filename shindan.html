@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AIサバイバル診断 | 才能を輝かせるプレミアム・パートナー</title>
+    <title>AIサバイバル診断 Ver.2.0 | 才能を輝かせるプレミアム・パートナー</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
         :root { --primary: #0047ab; --gold: #d4af37; --text-main: #1a1a1a; }
         
-        /* 1. 根本的な表示設定 */
         html, body { 
             overflow-x: hidden !important; 
             width: 100% !important; 
             margin: 0 !important; 
             padding: 0 !important; 
-            background-color: #000; /* 画像読み込み前のベースカラー */
+            background-color: #000;
             min-height: 100vh;
         }
         
@@ -27,26 +26,23 @@
             position: relative;
         }
         
-        /* 2. 背景レイヤー：z-indexを0以上に設定して確実に表示 */
+        /* 背景レイヤー */
         .bg-layer { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-size: cover; background-position: center; 
             transition: opacity 2s ease-in-out; 
-            z-index: 1; /* 最背面 */
-            opacity: 0; 
+            z-index: 1; opacity: 0; 
         }
         .bg-layer.active { opacity: 1 !important; }
-
-        /* 3. 背景の上の黒い幕（文字を読みやすくする） */
         .bg-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%); 
-            z-index: 2; /* 背景画像の上 */
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%); 
+            z-index: 2; 
         }
         
-        /* 4. メインコンテンツ：最前面 */
+        /* コンテナ */
         .container { 
-            background: rgba(255, 255, 255, 0.7); 
+            background: rgba(255, 255, 255, 0.75); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.4); 
             width: 90%; 
@@ -58,7 +54,7 @@
             position: relative; 
             margin: 40px auto !important;
             box-sizing: border-box !important;
-            z-index: 10; /* 確実に一番手前 */
+            z-index: 10;
         }
 
         h1.main-title { margin-bottom: 2rem; display: flex; justify-content: center; width: 100%; }
@@ -69,31 +65,34 @@
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
         }
 
-        .question-text { font-size: 1.25rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.6; color: #111; }
-        .options { display: grid; gap: 1rem; width: 100%; }
+        .question-text { font-size: 1.15rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.6; color: #111; min-height: 3.5rem; }
+        .options { display: grid; gap: 0.8rem; width: 100%; }
         
         button.option-btn { 
             background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.9); 
-            padding: 1.2rem; border-radius: 1rem; font-size: 1rem; font-weight: 700; 
+            padding: 1rem; border-radius: 1rem; font-size: 0.95rem; font-weight: 700; 
             cursor: pointer; transition: all 0.3s ease; color: #000; width: 100%;
             box-sizing: border-box;
         }
         button.option-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
         .result-view { display: none; text-align: left; animation: fadeIn 1s ease; width: 100%; }
-        .result-type-name { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; }
-        .type-desc { font-size: 0.95rem; line-height: 1.8; color: #1a1a1a; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.4); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.5); }
+        .result-type-name { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; }
+        .type-desc { font-size: 0.9rem; line-height: 1.8; color: #1a1a1a; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.4); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.5); }
         
-        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; }
-        .tool-logo { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; object-fit: contain; }
-        .tool-name { font-weight: 900; color: var(--primary); font-size: 1.05rem; }
-        .tool-reason { font-size: 0.8rem; color: #475569; line-height: 1.4; }
+        .section-title { font-size: 0.85rem; font-weight: 900; color: #475569; margin: 2rem 0 1rem; text-align: center; letter-spacing: 0.05em; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 0.5rem; }
 
-        .sub-tool-container { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; width: 100%; }
-        .sub-tool-link { background: rgba(255, 255, 255, 0.8); padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: #334155; }
+        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.1rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; transition: 0.2s; }
+        .tool-card:hover { transform: scale(1.02); background: #fff; }
+        .tool-logo { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; object-fit: contain; }
+        .tool-name { font-weight: 900; color: var(--primary); font-size: 1rem; }
+        .tool-reason { font-size: 0.75rem; color: #475569; line-height: 1.4; margin-top: 2px; }
+
+        .sub-tool-container { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; width: 100%; }
+        .sub-tool-link { background: rgba(255, 255, 255, 0.8); padding: 0.5rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; color: #334155; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2.5rem; border-left: 5px solid var(--gold); width: 100%; box-sizing: border-box; }
-        .manifesto-text { font-size: 0.9rem; line-height: 1.8; font-weight: 700; color: #333; }
+        .manifesto-text { font-size: 0.85rem; line-height: 1.8; font-weight: 700; color: #333; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -107,6 +106,10 @@
     <div id="bg3" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000');"></div>
     <div id="bg4" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2000');"></div>
     <div id="bg5" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2000');"></div>
+    <div id="bg6" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000');"></div>
+    <div id="bg7" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2000');"></div>
+    <div id="bg8" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000');"></div>
+    <div id="bg9" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000');"></div>
 </div>
 <div class="bg-overlay"></div>
 
@@ -118,26 +121,38 @@
     </div>
 
     <div id="result" class="result-view">
-        <div style="text-align: center; font-size: 0.75rem; letter-spacing: 0.3em; color: #64748b; margin-bottom: 0.5rem; font-weight: 700;">DIAGNOSIS RESULT</div>
+        <div style="text-align: center; font-size: 0.7rem; letter-spacing: 0.3em; color: #64748b; margin-bottom: 0.5rem; font-weight: 700;">DIAGNOSIS RESULT</div>
         <span class="result-type-name" id="result-type"></span>
         <div class="type-desc" id="type-explanation"></div>
+        
+        <div class="section-title">あなたの才能を加速させるメインツール</div>
         <div id="tool-list"></div>
+        
+        <div class="section-title">その他おすすめのAIツール</div>
         <div id="sub-tool-list" class="sub-tool-container"></div>
+        
         <div class="manifesto-box">
             <p class="manifesto-text">あなたにしか出来ないことがあります。AIを相棒にして、より自分が輝ける社会を創っていきましょう。</p>
         </div>
-        <button onclick="location.reload()" style="display: block; margin: 2.5rem auto 0; background: none; border: none; color: #94a3b8; cursor: pointer; text-decoration: underline; font-size: 0.85rem; font-weight: 700;">診断をやり直す</button>
+        <button onclick="location.reload()" style="display: block; margin: 2.5rem auto 0; background: none; border: none; color: #94a3b8; cursor: pointer; text-decoration: underline; font-size: 0.8rem; font-weight: 700;">最初からやり直す</button>
     </div>
 </div>
 
 <script>
     const logos = { claude: "claude.png", mj: "midjourney.png", chatgpt: "chatgpt.png", make: "make.png", gemini: "gemini.png", gamma: "gamma.png", notion: "notion.png", canva: "canva.png", per: "perplexity.png" };
+    
+    // 10問の質問（A:感性系 B:論理系 C:共感・ビジョン系）
     const questions = [
-        { text: "Q1. 仕事で一番「楽しい」と感じる瞬間は？", options: ["ゼロからアイデアを練る時", "情報を整理し仕組み化する時", "誰かの悩みを解決する時"], scores: [10, 20, 30] },
-        { text: "Q2. AIに任せて「楽」になりたい作業は？", options: ["下調べや初稿の作成", "事務やスケジュール管理", "画像や動画のデザイン制作"], scores: [1, 2, 3] },
-        { text: "Q3. 困難に直面した時、どう乗り越える？", options: ["直感と感性で突破する", "論理的に分析して解決する", "周囲と協力して乗り越える"], scores: [10, 20, 30] },
-        { text: "Q4. あなたが社会に提供したい価値は？", options: ["まだ見ぬ新しい驚き", "圧倒的な効率と正確さ", "温かい繋がりと安心感"], scores: [100, 200, 300] },
-        { text: "Q5. 5年後、どんな働き方をしていたい？", options: ["センス一本で自由に生きる", "チームで大きな変革を起こす", "大切な人と豊かに過ごす"], scores: [100, 200, 300] }
+        { text: "Q1. プロジェクトが始まるとき、ワクワクするのは？", options: ["真っ白なキャンバスに絵を描くとき", "効率的な段取りを組んでいるとき", "仲間にビジョンを語っているとき"], scores: [10, 20, 30] },
+        { text: "Q2. SNSでつい目が止まってしまう投稿は？", options: ["独自の世界観がある美しいビジュアル", "「これは便利！」な効率化ハック", "挑戦や想いに心打たれるストーリー"], scores: [10, 20, 30] },
+        { text: "Q3. AIを使って「一番やりたいこと」は？", options: ["想像を超えたクリエイティブを生む", "面倒な作業をすべて自動化する", "複雑な問題を一瞬で整理する"], scores: [10, 20, 30] },
+        { text: "Q4. 周囲から言われて一番嬉しい言葉は？", options: ["「あなたにしか出せないセンスだね」", "「仕事が正確で、仕組みが完璧だね」", "「あなたのおかげで勇気が出たよ」"], scores: [10, 20, 30] },
+        { text: "Q5. 情報収集をするとき、どう動く？", options: ["ピンときたものを直感的に深掘りする", "複数のソースを比較して構造化する", "信頼できる人の推薦を重視する"], scores: [10, 20, 30] },
+        { text: "Q6. チームの中でのあなたの立ち位置は？", options: ["斬新なアイデアを出す発火点", "計画を確実に遂行する要（かなめ）", "全体の士気を高めるリーダー"], scores: [10, 20, 30] },
+        { text: "Q7. ストレスを感じるのはどんなとき？", options: ["決まりきったルールに縛られるとき", "無駄な作業や非効率が続くとき", "コミュニケーションが冷え切っているとき"], scores: [10, 20, 30] },
+        { text: "Q8. 意思決定の最後に頼るのは？", options: ["「自分の心が動くか」という直感", "「数字やデータ」という客観的事実", "「みんなが幸せになれるか」という共感"], scores: [10, 20, 30] },
+        { text: "Q9. あなたが最も大切にしている時間は？", options: ["一人で没頭し、表現を磨く時間", "仕組みが回り、成果が出る時間", "誰かと深く繋がり、笑い合う時間"], scores: [10, 20, 30] },
+        { text: "Q10. AIとともに創りたい未来は？", options: ["人間の創造力が無限に広がる世界", "全ての人が労働から解放される世界", "想いが繋がり合う優しい世界"], scores: [100, 200, 300] }
     ];
 
     let currentIdx = 0; let totalScore = 0;
@@ -174,30 +189,55 @@
         document.getElementById('result').style.display = 'block';
         let res = { type: "", desc: "", tools: [], subTools: [] };
 
-        if (totalScore < 300) {
-            res.type = "感性のクリエイティブ・マスター";
-            res.desc = "あなたは独自のセンスと直感を武器に、ゼロから価値を生み出す表現者です。AIを単なる効率化の道具ではなく、自分の感性を拡張する「共創パートナー」として位置づけることで、あなたの創造力は100倍に加速します。言語化できない微細なニュアンスをAIに投げ込み、何度も対話を重ねることで、自分一人では到達できなかった未知の表現領域へと踏み出すことが可能です。感性を磨く時間こそが、あなたの最大の資産になります。";
+        // スコア判定ロジック（Q10の重みを利用して6タイプに分岐）
+        if (totalScore < 250) {
+            res.type = "直感のクリエイティブ・アーティスト";
+            res.desc = "あなたは独自の感性と直感を武器に、0から1を生み出す表現者です。AIを「自分の分身」や「拡張された筆」として使うことで、一人では到達できなかった芸術的な領域へと踏み出せます。";
             res.tools = [
-                { name: "Claude 3.5 Sonnet", reason: "あなたの繊細な感性や『行間』を読み取り、高精度な壁打ち相手として機能します。", url: "https://claude.ai/", logo: logos.claude },
-                { name: "Midjourney", reason: "頭の中にある抽象的なイメージや空気感を、言葉（プロンプト）を通じて圧倒的なアートへと昇華させます。", url: "https://www.midjourney.com/", logo: logos.mj }
+                { name: "Midjourney", reason: "頭の中の抽象的なイメージを、言葉を通じて圧倒的なアートへ昇華させます。", url: "https://www.midjourney.com/", logo: logos.mj },
+                { name: "Claude 3.5 Sonnet", reason: "あなたの繊細な感性や『行間』を読み取る、最高の共創パートナーです。", url: "https://claude.ai/", logo: logos.claude }
             ];
-            res.subTools = [{ name: "Canva AI" }, { name: "Notion AI" }];
-        } else if (totalScore < 500) {
-            res.type = "信頼のロジカル・アーキテクト";
-            res.desc = "あなたは複雑な情報を整理し、淀みのない仕組みを構築する設計者です。散らばったデータを構造化し、最短距離で最適解を導き出す能力に長けています。AIを活用して徹底的な自動化と情報の要約を極めることで、日々のルーチンワークから完全に解放され、より本質的な「戦略構築」や「新しい仕組みの創造」に没頭できる環境を作り出すことができます。あなたが構築するシステムそのものが、周囲にとっての強力な武器となるはずです。";
+            res.subTools = [{ name: "Canva AI" }, { name: "Runway" }];
+        } else if (totalScore < 350) {
+            res.type = "爆速のコンテンツ・プロデューサー";
+            res.desc = "あなたは世の中のニーズを察知し、圧倒的なスピードで形にする発信者です。AIを活用してコンテンツ制作を半自動化することで、トレンドの最先端を走り続けることができます。";
             res.tools = [
-                { name: "ChatGPT (GPT-4o)", reason: "膨大な情報の要約、データの構造化、プログラミングまで。論理的な思考を補完する最強の頭脳です。", url: "https://chatgpt.com/", logo: logos.chatgpt },
-                { name: "Make", reason: "複数のツールをシームレスに連携させ、あなた専用の全自動ワークフロー（仕組み）を実現します。", url: "https://www.make.com/", logo: logos.make }
+                { name: "ChatGPT (GPT-4o)", reason: "SNSの投稿案から台本作成まで、あなたの右腕として爆速でアウトプットを生成します。", url: "https://chatgpt.com/", logo: logos.chatgpt },
+                { name: "Canva", reason: "AI機能を駆使して、デザイン未経験でもプロ級のビジュアルを瞬時に作成します。", url: "https://www.canva.com/", logo: logos.canva }
             ];
-            res.subTools = [{ name: "Perplexity" }, { name: "Notion" }];
+            res.subTools = [{ name: "CapCut" }, { name: "Notion AI" }];
+        } else if (totalScore < 450) {
+            res.type = "精密のシステム・アーキテクト";
+            res.desc = "あなたは複雑な情報を整理し、淀みのない仕組みを構築する設計者です。AIによる自動化を極めることで、自分がいなくても成果が出る「資産」を構築する力を持っています。";
+            res.tools = [
+                { name: "Make", reason: "複数のツールをノーコードで連携させ、全自動のワークフローを構築します。", url: "https://www.make.com/", logo: logos.make },
+                { name: "Notion", reason: "情報を一箇所に集約し、AIによる整理・抽出でチームの生産性を最大化します。", url: "https://www.notion.so/", logo: logos.notion }
+            ];
+            res.subTools = [{ name: "Zapier" }, { name: "ChatGPT" }];
+        } else if (totalScore < 550) {
+            res.type = "叡智のデータ・アナリスト";
+            res.desc = "あなたは混沌としたデータの中から真実を見つけ出すナビゲーターです。AIを高度な分析ツールとして使いこなし、客観的な根拠に基づいた最適解を導き出すプロフェッショナルです。";
+            res.tools = [
+                { name: "Perplexity", reason: "最新のネット情報から正確なソースを引用し、リサーチ時間を極限まで短縮します。", url: "https://www.perplexity.ai/", logo: logos.per },
+                { name: "ChatGPT (Advanced Data Analysis)", reason: "複雑なデータ解析やグラフ作成を、チャット形式で瞬時に実行します。", url: "https://chatgpt.com/", logo: logos.chatgpt }
+            ];
+            res.subTools = [{ name: "Google Gemini" }, { name: "Excel AI" }];
+        } else if (totalScore < 650) {
+            res.type = "共感のコミュニティ・ディレクター";
+            res.desc = "あなたは人々の想いを汲み取り、温かい繋がりを創るリーダーです。AIに事務作業を任せ、自分は「対話」や「教育」に集中することで、コミュニティの価値を最大化させます。";
+            res.tools = [
+                { name: "Google Gemini", reason: "Google Workspaceと連携し、チームのスケジュール調整や情報共有を円滑にします。", url: "https://gemini.google.com/", logo: logos.gemini },
+                { name: "Notion", reason: "メンバーの知恵を資産化し、誰でも必要な情報にアクセスできる環境を整えます。", url: "https://www.notion.so/", logo: logos.notion }
+            ];
+            res.subTools = [{ name: "Claude" }, { name: "Canva" }];
         } else {
-            res.type = "共感のビジョナリー・リーダー";
-            res.desc = "あなたは人々の想いを結びつけ、未来のビジョンを指し示す先導者です。多様な意見を統合し、チームが向かうべき方向をポジティブに提示する力を持っています。AIを多角的な視点を持つ「アドバイザー」や、ビジョンを即座に視覚化する「デザイナー」として活用することで、あなたのリーダーシップはより説得力を増し、周囲を強力に巻き込んでいきます。AIで効率化した時間を「対話」に注ぐことで、より大きな社会変革を現実のものにするでしょう。";
+            res.type = "未来のビジョナリー・エバンジェリスト";
+            res.desc = "あなたは高い視座から未来を予見し、人々を鼓舞する伝道師です。AIを使ってビジョンを瞬時に視覚化・言語化することで、周囲を強力に巻き込み、社会を変革する力を持っています。";
             res.tools = [
-                { name: "Google Gemini", reason: "Google Workspaceとの高度な連携により、チームの情報共有と意思決定を劇的にスムーズにします。", url: "https://gemini.google.com/", logo: logos.gemini },
-                { name: "Gamma", reason: "キーワードを入力するだけで、あなたの情熱的なビジョンを洗練されたプレゼン資料へと瞬時に変換します。", url: "https://gamma.app/", logo: logos.gamma }
+                { name: "Gamma", reason: "キーワードだけで、あなたの情熱的なビジョンを洗練されたスライドへ変換します。", url: "https://gamma.app/", logo: logos.gamma },
+                { name: "ChatGPT (GPT-4o)", reason: "世界中の事例を元に、あなたのビジョンをより強固な戦略へと磨き上げます。", url: "https://chatgpt.com/", logo: logos.chatgpt }
             ];
-            res.subTools = [{ name: "Canva" }, { name: "ChatGPT" }];
+            res.subTools = [{ name: "Midjourney" }, { name: "Perplexity" }];
         }
 
         document.getElementById('result-type').innerText = res.type;
