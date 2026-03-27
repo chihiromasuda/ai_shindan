@@ -14,7 +14,7 @@
             width: 100% !important; 
             margin: 0 !important; 
             padding: 0 !important; 
-            background-color: #000; 
+            background-color: #000; /* 基本は黒 */
             min-height: 100vh;
         }
         
@@ -25,33 +25,36 @@
             justify-content: center; 
         }
         
-        /* 背景レイヤーの修正：z-indexを整理 */
+        /* 背景レイヤー：z-indexを-2に固定 */
         .bg-layer { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-size: cover; background-position: center; 
             transition: opacity 2s ease-in-out; z-index: -2; opacity: 0; 
         }
         .bg-layer.active { opacity: 1; }
+
+        /* オーバーレイ：z-indexを-1に固定 */
         .bg-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)); 
+            background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%); 
             z-index: -1; 
         }
         
+        /* コンテナ：透過度を上げて背景を見せる */
         .container { 
-            background: rgba(255, 255, 255, 0.65); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.4); 
+            background: rgba(255, 255, 255, 0.75); /* 透過度を調整 */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
             width: 90%; 
             max-width: 480px; 
             padding: 2.5rem 1.5rem; 
             border-radius: 1.8rem; 
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4); 
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5); 
             text-align: center; 
             position: relative; 
             margin: 40px auto !important;
             box-sizing: border-box !important;
-            z-index: 10;
+            z-index: 10; /* コンテンツを最前面に */
         }
 
         h1.main-title { margin-bottom: 2rem; display: flex; justify-content: center; width: 100%; }
@@ -66,7 +69,7 @@
         .options { display: grid; gap: 1rem; width: 100%; }
         
         button.option-btn { 
-            background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.9); 
+            background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.9); 
             padding: 1.2rem; border-radius: 1rem; font-size: 1rem; font-weight: 700; 
             cursor: pointer; transition: all 0.3s ease; color: #000; width: 100%;
             box-sizing: border-box;
@@ -74,19 +77,18 @@
         button.option-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
         .result-view { display: none; text-align: left; animation: fadeIn 1s ease; width: 100%; }
-        .result-type-name { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .result-type-name { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-align: center; display: block; margin-bottom: 1.5rem; line-height: 1.4; }
         .type-desc { font-size: 0.95rem; line-height: 1.8; color: #1a1a1a; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.4); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.5); }
         
-        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; transition: transform 0.2s; }
-        .tool-card:hover { transform: scale(1.02); background: #fff; }
+        .tool-card { background: rgba(255, 255, 255, 0.9); border-radius: 1rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 1rem; text-decoration: none; color: inherit; width: 100%; box-sizing: border-box; }
         .tool-logo { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; object-fit: contain; }
         .tool-name { font-weight: 900; color: var(--primary); font-size: 1.05rem; }
-        .tool-reason { font-size: 0.8rem; color: #475569; line-height: 1.4; margin-top: 2px; }
+        .tool-reason { font-size: 0.8rem; color: #475569; line-height: 1.4; }
 
         .sub-tool-container { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; width: 100%; }
-        .sub-tool-link { background: rgba(255, 255, 255, 0.8); padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: #334155; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .sub-tool-link { background: rgba(255, 255, 255, 0.8); padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: #334155; }
 
-        .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2.5rem; border-left: 5px solid var(--gold); width: 100%; box-sizing: border-box; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .manifesto-box { background: #fff; padding: 1.5rem; border-radius: 1rem; margin-top: 2.5rem; border-left: 5px solid var(--gold); width: 100%; box-sizing: border-box; }
         .manifesto-text { font-size: 0.9rem; line-height: 1.8; font-weight: 700; color: #333; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -125,6 +127,7 @@
 </div>
 
 <script>
+    // ロゴファイル名はGitHub上の実際のファイル名と完全に一致させてください（例：Image_0.pngなど）
     const logos = { claude: "claude.png", mj: "midjourney.png", chatgpt: "chatgpt.png", make: "make.png", gemini: "gemini.png", gamma: "gamma.png", notion: "notion.png", canva: "canva.png", per: "perplexity.png" };
     const questions = [
         { text: "Q1. 仕事で一番「楽しい」と感じる瞬間は？", options: ["ゼロからアイデアを練る時", "情報を整理し仕組み化する時", "誰かの悩みを解決する時"], scores: [10, 20, 30] },
